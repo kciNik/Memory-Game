@@ -9,7 +9,7 @@ const cardElements = ['🎓', '🧢', '📿', '💄', '💍', '💎'],
 
 let visibleCards = [];
 
-startButton.addEventListener('click', startGame)
+startButton.addEventListener('click', startGame);
 
 function startGame() {
     [gameboard, result].forEach(elem => elem.innerHTML = '');
@@ -19,12 +19,10 @@ function startGame() {
     cards.forEach(renderCard);
 
     const renderedCards = document.querySelectorAll(".card");
-    renderedCards.forEach((card) => card.classList.add(visibleClass));
+    renderedCards.forEach(card => card.classList.add(visibleClass));
 
     setTimeout(() => {
-        renderedCards.forEach((card) =>
-          card.classList.remove(visibleClass)
-        );
+        renderedCards.forEach(card => card.classList.remove(visibleClass))
       }, cardFlipTimeout * 2);
 }
 
@@ -32,9 +30,7 @@ function genBoard(elements, size) {
     const randCards = [],
           counts = {};
     
-    for (const elem in elements) {
-        counts[elem] = 0;
-    }
+    elements.forEach(elem => counts[elem] = 0);
 
     while (randCards.length < size) {
         const randElem = elements[Math.floor(Math.random() * elements.length)];
@@ -59,6 +55,7 @@ function renderCard(element = '') {
     cardFront.classList.add('card-front');
     cardBack.classList.add('card-back');
 
+    cardBack.textContent = '';
     cardBack.textContent = element;
 
     cardInner.appendChild(cardFront);
@@ -80,7 +77,7 @@ function handleCardClick(card) {
         const visibleCardsNodes = document.querySelectorAll(`.${visibleClass}`);
 
         if (visibleCardsNodes.length === boardSize) {
-            result.textContent = "Поздравляю, вы победили!";
+            result.textContent = "You Win!";
         }
     };
 
@@ -94,13 +91,14 @@ function handleCardClick(card) {
     }
 
     const [prelastCard, lastCard] = visibleCards.slice(-2);
+
     if (lastCard.textContent !== prelastCard.textContent) {
         visibleCards = visibleCards.slice(0, visibleCards.length - 2);
 
         setTimeout(() => {
         [lastCard, prelastCard].forEach((card) =>
             card.classList.remove(visibleClass)
-        );
+        )
         }, cardFlipTimeout);
     }
 }
